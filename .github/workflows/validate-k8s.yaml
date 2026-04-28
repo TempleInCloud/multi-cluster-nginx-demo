@@ -1,0 +1,27 @@
+name: Validate Kubernetes Manifests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Validate YAML files
+        run: |
+          python - <<'PY'
+          import os, yaml
+          for root, _, files in os.walk("manifests"):
+              for file in files:
+                  if file.endswith((".yaml", ".yml")):
+                      path = os.path.join(root, file)
+                      with open(path) as f:
+                          list(yaml.safe_load_all(f))
+                      print(f"valid: {path}")
+          PY
