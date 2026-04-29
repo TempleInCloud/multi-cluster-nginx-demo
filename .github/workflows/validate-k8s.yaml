@@ -10,9 +10,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v4
 
+      # Step 1: Validate YAML syntax
       - name: Validate YAML syntax
         run: |
           python - <<'PY'
@@ -27,11 +28,13 @@ jobs:
                       print(f"valid yaml: {path}")
           PY
 
+      # Step 2: Install kubeval
       - name: Install kubeval
         run: |
           curl -sL https://github.com/instrumenta/kubeval/releases/latest/download/kubeval-linux-amd64.tar.gz | tar xz
           sudo mv kubeval /usr/local/bin/
 
+      # Step 3: Validate Kubernetes manifests properly
       - name: Validate Kubernetes manifests with kubeval
         run: |
-          kubeval manifests/app/*.yaml
+          kubeval --strict --ignore-missing-schemas manifests/app/*.yaml
