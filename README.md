@@ -60,6 +60,16 @@ scripts/       → Automation scripts (cluster creation, deployment, cleanup)
 5. Prometheus collects metrics
 6. Grafana visualizes application performance
 
+## GitOps Deployment (ArgoCD)
+
+ArgoCD is used to manage application deployment using GitOps principles.
+
+It continuously compares the desired state (Git) with the actual state (cluster).
+
+Example showing application status and sync state:
+
+![ArgoCD](images/argocd.png)
+
 ## CI/CD Flow
 
 - GitHub Actions runs on every push
@@ -68,6 +78,8 @@ scripts/       → Automation scripts (cluster creation, deployment, cleanup)
 - If validation passes, changes can be synced via ArgoCD
 
 ## Observability
+
+![Grafana](images/grafana.png)
 
 Prometheus is used to collect metrics from the Kubernetes cluster.
 
